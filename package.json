@@ -37,6 +37,8 @@
     "@rollup/plugin-babel": "^6.0.4",
     "babel-plugin-ember-template-compilation": "^2.3.0",
     "decorator-transforms": "^2.0.0",
+    "ember-cli": "^6.2.2",
+    "ember-exam": "^9.0.0",
     "ember-modifier": "^4.1.0",
     "ember-page-title": "^9.0.1",
     "ember-qunit": "^9.0.1",
@@ -55,5 +57,10 @@
   "ember-addon": {
     "type": "app",
     "version": 2
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "ember-cli": "patches/ember-cli.patch"
+    }
   }
 }
