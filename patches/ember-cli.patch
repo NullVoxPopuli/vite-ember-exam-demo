@@ -1,0 +1,52 @@
+diff --git a/lib/broccoli/default-packager.js b/lib/broccoli/default-packager.js
+index fd159b57339221cef0502782b539b677e6016177..4425f734125748fcb6a6214fef0789f5cd44b37f 100644
+--- a/lib/broccoli/default-packager.js
++++ b/lib/broccoli/default-packager.js
+@@ -961,11 +961,11 @@ module.exports = class DefaultPackager {
+       sourceMapConfig: this.sourcemaps,
+     });
+ 
+-    let testemPath = path.join(__dirname, 'testem');
++    let testemPath = path.join(__dirname, 'testem.cjs');
+     testemPath = path.dirname(testemPath);
+ 
+     let testemTree = new Funnel(new UnwatchedDir(testemPath), {
+-      files: ['testem.js'],
++      files: ['testem.cjs'],
+       annotation: 'Funnel (testem)',
+     });
+ 
+diff --git a/lib/broccoli/ember-app.js b/lib/broccoli/ember-app.js
+index 82eb68be1bb3ced75dcf3eb04957947fa609d0ea..5041fb0e3b37d92ae5c60c81646c0847625f44c2 100644
+--- a/lib/broccoli/ember-app.js
++++ b/lib/broccoli/ember-app.js
+@@ -210,7 +210,7 @@ class EmberApp {
+     this.project = options.project || Project.closestSync(process.cwd());
+ 
+     if (options.configPath) {
+-      this.project.configPath = function () {
++      this.project.configPath = function() {
+         return app._resolveLocal(options.configPath);
+       };
+       this.project.configCache.clear();
+@@ -324,6 +324,7 @@ class EmberApp {
+     this.options.fingerprint = this.options.fingerprint || {};
+     this.options.fingerprint.exclude = this.options.fingerprint.exclude || [];
+     this.options.fingerprint.exclude.push('testem');
++    this.options.fingerprint.exclude.push('testem.cjs');
+   }
+ 
+   /**
+diff --git a/tests/helpers/ember.js b/tests/helpers/ember.js
+index a678d3243326cee5c5d52fe7adc405f41d634b68..de767c9face440775cfc0165f6a6c615520dd3ff 100644
+--- a/tests/helpers/ember.js
++++ b/tests/helpers/ember.js
+@@ -55,7 +55,7 @@ module.exports = function ember(args, options) {
+       to ensure that each test always reads from the file system,
+       not the memory cache.
+     */
+-    delete require.cache[path.join(process.cwd(), 'testem.js')];
++    delete require.cache[path.join(process.cwd(), 'testem.cjs')];
+   }
+ 
+   args.push('--watcher=node');
